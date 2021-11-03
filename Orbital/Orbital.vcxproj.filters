@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\absolute_phase">
+      <UniqueIdentifier>{52aa596f-bca2-44c8-b944-b61b28ad3265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\objects">
+      <UniqueIdentifier>{8abc76b5-1847-4d34-a43a-73ef3de3ab55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\relatively_phase">
+      <UniqueIdentifier>{a45b5ef9-41cf-4100-b568-eb411dc1060e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\state">
+      <UniqueIdentifier>{8fabb709-feb1-41c7-9a04-7109ae1dc077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\timesystem">
+      <UniqueIdentifier>{214842e0-e95d-4744-ab9d-c020d35e4709}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="absolute_phase\absolute_dirct_phase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="absolute_phase\absolute_point_phase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="space.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="absolute_phase\absolute_dirct_phase.h">
+      <Filter>Header Files\absolute_phase</Filter>
+    </ClInclude>
+    <ClInclude Include="absolute_phase\absolute_frame_phase.h">
+      <Filter>Header Files\absolute_phase</Filter>
+    </ClInclude>
+    <ClInclude Include="absolute_phase\absolute_point_phase.h">
+      <Filter>Header Files\absolute_phase</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\dirct.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\frame.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\point.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="relatively_phase\relatively_dirct_phase.h">
+      <Filter>Header Files\relatively_phase</Filter>
+    </ClInclude>
+    <ClInclude Include="relatively_phase\relatively_frame_phase.h">
+      <Filter>Header Files\relatively_phase</Filter>
+    </ClInclude>
+    <ClInclude Include="relatively_phase\relatively_point_phase.h">
+      <Filter>Header Files\relatively_phase</Filter>
+    </ClInclude>
+    <ClInclude Include="state\base_state.h">
+      <Filter>Header Files\state</Filter>
+    </ClInclude>
+    <ClInclude Include="timesystem\TDB.h">
+      <Filter>Header Files\timesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="timesystem\timepoint.h">
+      <Filter>Header Files\timesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="state\drict_state.h">
+      <Filter>Header Files\state</Filter>
+    </ClInclude>
+    <ClInclude Include="state\frame_state.h">
+      <Filter>Header Files\state</Filter>
+    </ClInclude>
+    <ClInclude Include="state\point_state.h">
+      <Filter>Header Files\state</Filter>
+    </ClInclude>
+    <ClInclude Include="absolute_phase\absolute_point_phase_diff.h">
+      <Filter>Header Files\absolute_phase</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+</Project>

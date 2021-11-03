@@ -1,0 +1,717 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     28855,        709]
+NotebookOptionsPosition[     27504,        679]
+NotebookOutlinePosition[     27942,        696]
+CellTagsIndexPosition[     27899,        693]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"posvelacc", "[", 
+    RowBox[{"pos_", ",", "t_"}], "]"}], ":=", 
+   RowBox[{"Flatten", "@", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"D", "[", 
+       RowBox[{"pos", ",", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", "i"}], "}"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "0", ",", "2"}], "}"}]}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"showbase", "[", 
+   RowBox[{"m_", ",", "o_", ",", "s_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"s", "~", "Join", "~", 
+     RowBox[{"{", 
+      RowBox[{"#2", ",", 
+       RowBox[{"Arrow", "[", 
+        RowBox[{"{", 
+         RowBox[{"o", ",", 
+          RowBox[{"o", "+", "#1"}]}], "}"}], "]"}]}], "}"}]}], "&"}], "@@@", 
+   RowBox[{"Transpose", "@", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Transpose", "[", 
+       RowBox[{"m", ".", 
+        RowBox[{"IdentityMatrix", "[", "3", "]"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"Red", ",", "Green", ",", "Blue"}], "}"}]}], 
+     "}"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"showpoint", "[", 
+   RowBox[{"v_", ",", "o_", ",", "s_"}], "]"}], ":=", 
+  RowBox[{"s", "~", "Join", "~", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Arrowheads", "[", 
+      RowBox[{"{", 
+       RowBox[{"{", 
+        RowBox[{"0.005", ",", "1", ",", 
+         RowBox[{"Graphics3D", "[", 
+          RowBox[{"Sphere", "[", "]"}], "]"}]}], "}"}], "}"}], "]"}], ",", 
+     RowBox[{"Arrow", "[", 
+      RowBox[{"{", 
+       RowBox[{"o", ",", "v"}], "}"}], "]"}]}], "}"}]}]}]}], "Input",
+ CellChangeTimes->{{3.844469336895056*^9, 3.844469389436206*^9}, {
+  3.84448190899164*^9, 3.8444819301673203`*^9}, {3.8444835095527983`*^9, 
+  3.844483510244671*^9}, {3.8444866517246537`*^9, 3.8444867138051844`*^9}, {
+  3.844609770991926*^9, 3.844609771142719*^9}, {3.844609947538781*^9, 
+  3.844609952204067*^9}},
+ CellLabel->"In[81]:=",ExpressionUUID->"371d02b0-155e-453c-bdd5-8a6b155b2341"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"posvelacc", "[", 
+       RowBox[{
+        RowBox[{"emC", "[", "ct", "]"}], ",", "ct"}], "]"}], ",", 
+      RowBox[{"posvelacc", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"emC", "[", "ct", "]"}], "+", 
+         RowBox[{
+          RowBox[{"mMO", "[", "ct", "]"}], ".", 
+          RowBox[{"mC", "[", "ct", "]"}]}]}], ",", "ct"}], "]"}]}], "}"}], "/.", 
+    RowBox[{"{", 
+     RowBox[{"ct", "\[Rule]", 
+      FractionBox["\[Pi]", "10"]}], "}"}]}], "//", "N"}], "//", 
+  "Grid"}]], "Input",
+ CellChangeTimes->{{3.8445991651645975`*^9, 3.8445991800423017`*^9}},
+ CellLabel->
+  "In[268]:=",ExpressionUUID->"080f61e3-b62f-457b-8bdd-2c5ac784fdab"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"0.9996573249755573`", "0.02607733711652492`", "0.002281471372639738`", 
+     RowBox[{"-", "0.002181412358989429`"}], "0.08298777725410227`", 
+     "0.0072604897209484825`", 
+     RowBox[{"-", "0.006942064756774703`"}], 
+     RowBox[{"-", "0.0001810926188647564`"}], 
+     RowBox[{"-", "0.000015843551198887068`"}]},
+    {"1.0276423622067474`", "0.10995642894905094`", "0.04898410132556171`", 
+     RowBox[{"-", "0.09466288436193114`"}], "0.0934839631527479`", 
+     "0.043825601750726`", 
+     RowBox[{"-", "0.03492710198796489`"}], 
+     RowBox[{"-", "0.08406018445139078`"}], 
+     RowBox[{"-", "0.04671847350412086`"}]}
+   },
+   AutoDelete->False,
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.844599187329459*^9, 3.8445992692158957`*^9},
+ CellLabel->
+  "Out[268]=",ExpressionUUID->"42e41d58-37b3-4c38-981f-a6a1b48cc25b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"posvelacc", "[", 
+  RowBox[{
+   RowBox[{"earthCP", "[", "ct", "]"}], ",", "ct"}], "]"}]], "Input",
+ CellChangeTimes->{{3.844611033525406*^9, 3.8446110390111637`*^9}, {
+  3.8446117924806604`*^9, 3.8446117960069666`*^9}, {3.844612017352804*^9, 
+  3.844612018605047*^9}, {3.844612712478589*^9, 3.8446127132301826`*^9}},
+ CellLabel->"In[82]:=",ExpressionUUID->"eb39c983-84ec-4dbf-a26f-8db40290a53a"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", "0.1`"}], " ", 
+    RowBox[{"Cos", "[", 
+     RowBox[{"ct", "+", 
+      RowBox[{"12", " ", "\[Degree]"}]}], "]"}]}], ",", 
+   RowBox[{
+    RowBox[{"-", "0.1`"}], " ", 
+    RowBox[{"Sin", "[", 
+     RowBox[{"ct", "+", 
+      RowBox[{"12", " ", "\[Degree]"}]}], "]"}]}], ",", "0", ",", 
+   RowBox[{"0.1`", " ", 
+    RowBox[{"Sin", "[", 
+     RowBox[{"ct", "+", 
+      RowBox[{"12", " ", "\[Degree]"}]}], "]"}]}], ",", 
+   RowBox[{
+    RowBox[{"-", "0.1`"}], " ", 
+    RowBox[{"Cos", "[", 
+     RowBox[{"ct", "+", 
+      RowBox[{"12", " ", "\[Degree]"}]}], "]"}]}], ",", "0", ",", 
+   RowBox[{"0.1`", " ", 
+    RowBox[{"Cos", "[", 
+     RowBox[{"ct", "+", 
+      RowBox[{"12", " ", "\[Degree]"}]}], "]"}]}], ",", 
+   RowBox[{"0.1`", " ", 
+    RowBox[{"Sin", "[", 
+     RowBox[{"ct", "+", 
+      RowBox[{"12", " ", "\[Degree]"}]}], "]"}]}], ",", "0"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.844612019179677*^9, 3.8446127139616613`*^9},
+ CellLabel->"Out[82]=",ExpressionUUID->"5e04f40a-ba00-4e6d-b5f2-6bd6c82f47c5"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"SSB", "[", "ct_", "]"}], ":=", 
+   RowBox[{"IdentityMatrix", "[", "3", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"earthmoonMeanOrbit", "[", "ct_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "11.3"}], "\[Degree]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "]"}], ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"2.3", "\[Degree]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0", ",", "0"}], "}"}]}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"earthMeanEquator", "[", "ct_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"1.35", "\[Degree]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "]"}], ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"23.4", "\[Degree]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0", ",", "0"}], "}"}]}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"earthBodyFix", "[", "ct_", "]"}], ":=", 
+   RowBox[{"RotationMatrix", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"30", "ct"}], "+", 
+        RowBox[{"5", 
+         RowBox[{"Cos", "[", "ct", "]"}]}]}], ")"}], "*", "360", 
+      "\[Degree]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"moonMeanOrbit", "[", "ct_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"56.5", "\[Degree]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "]"}], ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"18", "\[Degree]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0", ",", "0"}], "}"}]}], "]"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8445991030605564`*^9, 3.844599130668382*^9}, {
+   3.84459923758619*^9, 3.8445992672862387`*^9}, {3.8446001023170085`*^9, 
+   3.8446001045290794`*^9}, {3.844600462171383*^9, 3.844600546758675*^9}, {
+   3.8446006993405037`*^9, 3.8446008025252113`*^9}, {3.844600834796223*^9, 
+   3.844600835465217*^9}, 3.84460090199712*^9, {3.8446092606197433`*^9, 
+   3.8446093180864224`*^9}, 3.8446105534270597`*^9, {3.844896985516745*^9, 
+   3.8448970253555202`*^9}, {3.8448970559570403`*^9, 3.844897086542254*^9}, {
+   3.84489712969492*^9, 
+   3.844897233691757*^9}},ExpressionUUID->"95e0e884-cc9c-4fdb-a251-\
+ce917dbb88d6"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"earthmoonCP", "[", "ct_", "]"}], ":=", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Cos", "[", 
+        RowBox[{"ct", "/", "12"}], "]"}], ",", 
+       RowBox[{"Sin", "[", 
+        RowBox[{"ct", "/", "12"}], "]"}], ",", "0"}], "}"}]}], ")"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"moonCP", "[", "ct_", "]"}], ":=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"0.5", "*", 
+     RowBox[{"Cos", "[", 
+      RowBox[{"ct", "+", 
+       RowBox[{"12", "\[Degree]"}]}], "]"}]}], ",", 
+    RowBox[{"0.5", "*", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"ct", "+", 
+       RowBox[{"12", "\[Degree]"}]}], "]"}]}], ",", "0"}], 
+   "}"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"earthCP", "[", "ct_", "]"}], ":=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "0.1"}], "*", 
+     RowBox[{"Cos", "[", 
+      RowBox[{"ct", "+", 
+       RowBox[{"12", "\[Degree]"}]}], "]"}]}], ",", 
+    RowBox[{
+     RowBox[{"-", "0.1"}], "*", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"ct", "+", 
+       RowBox[{"12", "\[Degree]"}]}], "]"}]}], ",", "0"}], 
+   "}"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"satt", "[", "ct_", "]"}], ":=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"0.15", "*", 
+     RowBox[{"Cos", "[", 
+      RowBox[{"960", "\[Degree]", "*", "ct"}], "]"}]}], ",", 
+    RowBox[{"0.15", "*", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"960", "\[Degree]", "*", "ct"}], "]"}]}], ",", "0"}], 
+   "}"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"localstation", "[", "ct_", "]"}], ":=", 
+  RowBox[{"{", 
+   RowBox[{"0", ",", "0.11", ",", "0"}], 
+   "}"}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.844600827464677*^9, 3.8446009185010185`*^9}, {
+   3.8446009725614758`*^9, 3.844600976072507*^9}, {3.8446010124988317`*^9, 
+   3.8446010930281467`*^9}, {3.844609445953427*^9, 3.844609473196972*^9}, {
+   3.844609529292843*^9, 3.8446095948727055`*^9}, {3.844609816732583*^9, 
+   3.84460982310252*^9}, {3.84461010629848*^9, 3.844610113831474*^9}, 
+   3.844913138646878*^9},ExpressionUUID->"48916510-01c6-4a43-8921-\
+42e7d1139587"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[Phi]", " ", "=", " ", 
+   RowBox[{"35", "\[Degree]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Lambda]", "=", 
+   RowBox[{"45", "\[Degree]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"lsENS", "[", "ct_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{"\[Lambda]", ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "]"}], ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      RowBox[{"-", "\[Phi]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "1", ",", "0"}], "}"}]}], "]"}], ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      FractionBox["\[Pi]", "2"], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "1", ",", "0"}], "}"}]}], "]"}], ".", 
+    RowBox[{"RotationMatrix", "[", 
+     RowBox[{
+      FractionBox["\[Pi]", "2"], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lsCP", "[", "ct_", "]"}], ":=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"0.11`", " ", 
+     RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", 
+     RowBox[{"Cos", "[", "\[Lambda]", "]"}]}], ",", 
+    RowBox[{"0.11`", " ", 
+     RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", 
+     RowBox[{"Sin", "[", "\[Lambda]", "]"}]}], ",", 
+    RowBox[{"0.11`", " ", 
+     RowBox[{"Sin", "[", "\[Phi]", "]"}]}]}], "}"}]}]}], "Input",
+ CellChangeTimes->{{3.8448972389152*^9, 3.8448972733644686`*^9}, {
+  3.8448973614607267`*^9, 3.844897376368904*^9}, {3.8448976723439803`*^9, 
+  3.844897673260889*^9}, {3.8448981754695964`*^9, 3.844898195521815*^9}, {
+  3.8448982767687006`*^9, 3.8448983153583984`*^9}, {3.8448983631003857`*^9, 
+  3.8448984715470867`*^9}, {3.8448988720802217`*^9, 3.844898884519972*^9}, {
+  3.8448989680854635`*^9, 3.8448989979202547`*^9}},
+ CellLabel->
+  "In[191]:=",ExpressionUUID->"cde377f4-eb61-404d-bdff-70471ad54998"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Graphics3D", "[", 
+    RowBox[{
+     RowBox[{"Flatten", "[", 
+      RowBox[{
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"showbase", "[", 
+          RowBox[{
+           RowBox[{"SSB", "[", "ct", "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"Arrowheads", "[", "Small", "]"}], "}"}]}], "]"}], 
+         RowBox[{"(*", " ", 
+          RowBox[{"S", ".", "S", ".", "B", "."}], " ", "*)"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"showpoint", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"SSB", "[", "ct", "]"}], ".", 
+            RowBox[{"earthmoonCP", "[", "ct", "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"Blue", ",", 
+             RowBox[{"Opacity", "[", ".5", "]"}]}], "}"}]}], "]"}], 
+         RowBox[{"(*", " ", 
+          RowBox[{"earth", "-", 
+           RowBox[{"moon", " ", "center"}], "-", "point"}], " ", "*)"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"showpoint", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonCP", "[", "ct", "]"}]}], "+", 
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"moonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"moonCP", "[", "ct", "]"}]}]}], ",", 
+           RowBox[{"earthmoonCP", "[", "ct", "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"Gray", ",", 
+             RowBox[{"Opacity", "[", ".85", "]"}]}], "}"}]}], "]"}], 
+         RowBox[{"(*", " ", 
+          RowBox[{
+           RowBox[{"moon", " ", "center"}], "-", "point"}], " ", "*)"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"showpoint", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonCP", "[", "ct", "]"}]}], "+", 
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"moonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthCP", "[", "ct", "]"}]}]}], ",", 
+           RowBox[{"earthmoonCP", "[", "ct", "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"Cyan", ",", 
+             RowBox[{"Opacity", "[", ".85", "]"}]}], "}"}]}], "]"}], 
+         RowBox[{"(*", " ", 
+          RowBox[{
+           RowBox[{"earth", " ", "center"}], "-", "point"}], " ", "*)"}], ",",
+          "\[IndentingNewLine]", 
+         RowBox[{"showbase", "[", 
+          RowBox[{
+           RowBox[{"0.2", "*", 
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"earthBodyFix", "[", "ct", "]"}]}]}], ",", 
+           RowBox[{
+            RowBox[{"earthmoonCP", "[", "ct", "]"}], "+", 
+            RowBox[{
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"moonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthCP", "[", "ct", "]"}]}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"Arrowheads", "[", "Small", "]"}], "}"}]}], "]"}], 
+         RowBox[{"(*", " ", 
+          RowBox[{
+           RowBox[{"earth", " ", "fixed"}], "-", "body"}], " ", "*)"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"showpoint", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonCP", "[", "ct", "]"}]}], "+", 
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"moonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthCP", "[", "ct", "]"}]}], "+", 
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"earthBodyFix", "[", "ct", "]"}], ".", 
+             RowBox[{"lsCP", "[", "ct", "]"}]}]}], ",", 
+           RowBox[{
+            RowBox[{"earthmoonCP", "[", "ct", "]"}], "+", 
+            RowBox[{
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"moonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthCP", "[", "ct", "]"}]}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"Red", ",", 
+             RowBox[{"Opacity", "[", ".5", "]"}]}], "}"}]}], "]"}], 
+         RowBox[{"(*", 
+          RowBox[{"Local", " ", "Station", " ", "ENS"}], "*)"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"showbase", "[", 
+          RowBox[{
+           RowBox[{"0.2", "*", 
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"earthBodyFix", "[", "ct", "]"}], ".", 
+             RowBox[{"lsENS", "[", "ct", "]"}]}]}], ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonCP", "[", "ct", "]"}]}], "+", 
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"moonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthCP", "[", "ct", "]"}]}], "+", 
+            RowBox[{
+             RowBox[{"SSB", "[", "ct", "]"}], ".", 
+             RowBox[{"earthmoonMeanOrbit", "[", "ct", "]"}], ".", 
+             RowBox[{"earthMeanEquator", "[", "ct", "]"}], ".", 
+             RowBox[{"earthBodyFix", "[", "ct", "]"}], ".", 
+             RowBox[{"lsCP", "[", "ct", "]"}]}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"Arrowheads", "[", "Small", "]"}], "}"}]}], "]"}]}], 
+        RowBox[{"(*", 
+         RowBox[{"Local", " ", "Station", " ", "ENS"}], "*)"}], 
+        "\[IndentingNewLine]", "}"}], ",", "1"}], "]"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "1.5"}], ",", "1.5"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "1.5"}], ",", "1.5"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "1.5"}], ",", "1.5"}], "}"}]}], "}"}]}]}], "]"}], 
+   "\[IndentingNewLine]", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ct", ",", 
+       FractionBox["\[Pi]", "10"]}], "}"}], ",", "0", ",", 
+     RowBox[{"2", "\[Pi]"}]}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.8446015542048116`*^9, 3.8446015614028635`*^9}, {
+   3.844609330418206*^9, 3.8446094097236423`*^9}, {3.8446096242281322`*^9, 
+   3.8446097982402725`*^9}, {3.8446099267673793`*^9, 3.844609961806634*^9}, {
+   3.844610018745061*^9, 3.8446100616756697`*^9}, {3.8446101185667973`*^9, 
+   3.84461022241498*^9}, 3.844610275838484*^9, {3.8446103914023666`*^9, 
+   3.844610397289544*^9}, {3.844610429084958*^9, 3.8446104484883943`*^9}, {
+   3.844610583325817*^9, 3.844610583946862*^9}, 3.8448974347885094`*^9, {
+   3.844897468265126*^9, 3.8448974693155375`*^9}, {3.8448975154810286`*^9, 
+   3.844897517799981*^9}, {3.8448975517573023`*^9, 3.844897621637309*^9}, 
+   3.844897716697404*^9, 3.844897779275775*^9, {3.844898109728804*^9, 
+   3.84489814262004*^9}, {3.8448984792539062`*^9, 3.844898499111704*^9}, {
+   3.8448987543417945`*^9, 3.8448988198961725`*^9}, {3.844913011679577*^9, 
+   3.844913024570783*^9}},ExpressionUUID->"f53b40b1-e5c2-4639-8101-\
+6099eda96720"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`ct$$ = 3.302213447648765, Typeset`show$$ = 
+    True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`ct$$], Rational[1, 10] Pi}, 0, 2 Pi}}, 
+    Typeset`size$$ = {360., {177., 183.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`ct$$ = Rational[1, 10] Pi},
+       "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Graphics3D[
+        Flatten[{
+          $CellContext`showbase[
+           $CellContext`SSB[$CellContext`ct$$], {0, 0, 0}, {
+            Arrowheads[Small]}], 
+          $CellContext`showpoint[
+           Dot[
+            $CellContext`SSB[$CellContext`ct$$], 
+            $CellContext`earthmoonCP[$CellContext`ct$$]], {0, 0, 0}, {Blue, 
+            Opacity[0.5]}], 
+          $CellContext`showpoint[Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonCP[$CellContext`ct$$]] + Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`moonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`moonCP[$CellContext`ct$$]], 
+           $CellContext`earthmoonCP[$CellContext`ct$$], {Gray, 
+            Opacity[0.85]}], 
+          $CellContext`showpoint[Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonCP[$CellContext`ct$$]] + Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`moonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthCP[$CellContext`ct$$]], 
+           $CellContext`earthmoonCP[$CellContext`ct$$], {Cyan, 
+            Opacity[0.85]}], 
+          $CellContext`showbase[0.2 Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`earthBodyFix[$CellContext`ct$$]], \
+$CellContext`earthmoonCP[$CellContext`ct$$] + Dot[
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`moonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthCP[$CellContext`ct$$]], {
+            Arrowheads[Small]}], 
+          $CellContext`showpoint[Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonCP[$CellContext`ct$$]] + Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`moonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthCP[$CellContext`ct$$]] + Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`earthBodyFix[$CellContext`ct$$], 
+             $CellContext`lsCP[$CellContext`ct$$]], \
+$CellContext`earthmoonCP[$CellContext`ct$$] + Dot[
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`moonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthCP[$CellContext`ct$$]], {Red, 
+            Opacity[0.5]}], 
+          $CellContext`showbase[0.2 Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`earthBodyFix[$CellContext`ct$$], 
+             $CellContext`lsENS[$CellContext`ct$$]], Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonCP[$CellContext`ct$$]] + Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`moonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthCP[$CellContext`ct$$]] + Dot[
+             $CellContext`SSB[$CellContext`ct$$], 
+             $CellContext`earthmoonMeanOrbit[$CellContext`ct$$], 
+             $CellContext`earthMeanEquator[$CellContext`ct$$], 
+             $CellContext`earthBodyFix[$CellContext`ct$$], 
+             $CellContext`lsCP[$CellContext`ct$$]], {
+            Arrowheads[Small]}]}, 1], 
+        PlotRange -> {{-1.5, 1.5}, {-1.5, 1.5}, {-1.5, 1.5}}], 
+      "Specifications" :> {{{$CellContext`ct$$, Rational[1, 10] Pi}, 0, 2 
+         Pi}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{408., {229., 235.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.8446102763465147`*^9, 3.844610280791159*^9}, 
+   3.8446103977605734`*^9, 3.8446104494020033`*^9, {3.8446105555938215`*^9, 
+   3.8446105865816574`*^9}, 3.8448152046946926`*^9, 3.844826437098029*^9, {
+   3.844897621974747*^9, 3.8448976338777966`*^9}, {3.8448976782614403`*^9, 
+   3.8448977296657257`*^9}, {3.8448981139134736`*^9, 3.844898144906586*^9}, 
+   3.8448981797567425`*^9, 3.8448982897599506`*^9, 3.8448988209105425`*^9, 
+   3.844898943061105*^9},
+ CellLabel->
+  "Out[174]=",ExpressionUUID->"09487b76-0c20-48a2-ac0f-f0b55b352e52"]
+}, Open  ]]
+},
+WindowSize->{1428., 747.75},
+WindowMargins->{{-1440, Automatic}, {Automatic, 0}},
+Magnification:>1. Inherited,
+FrontEndVersion->"12.2 for Microsoft Windows (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"b0ebc06f-d2b9-486d-b8fd-42ce94a5aedd"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1991, 56, 66, "Input",ExpressionUUID->"371d02b0-155e-453c-bdd5-8a6b155b2341"],
+Cell[CellGroupData[{
+Cell[2574, 80, 746, 22, 41, "Input",ExpressionUUID->"080f61e3-b62f-457b-8bdd-2c5ac784fdab"],
+Cell[3323, 104, 935, 20, 48, "Output",ExpressionUUID->"42e41d58-37b3-4c38-981f-a6a1b48cc25b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4295, 129, 419, 7, 28, "Input",ExpressionUUID->"eb39c983-84ec-4dbf-a26f-8db40290a53a"],
+Cell[4717, 138, 1083, 32, 32, "Output",ExpressionUUID->"5e04f40a-ba00-4e6d-b5f2-6bd6c82f47c5"]
+}, Open  ]],
+Cell[5815, 173, 2656, 74, 104, "Input",ExpressionUUID->"95e0e884-cc9c-4fdb-a251-ce917dbb88d6"],
+Cell[8474, 249, 2205, 64, 122, "Input",ExpressionUUID->"48916510-01c6-4a43-8921-42e7d1139587"],
+Cell[10682, 315, 1946, 50, 99, "Input",ExpressionUUID->"cde377f4-eb61-404d-bdff-70471ad54998"],
+Cell[CellGroupData[{
+Cell[12653, 369, 8472, 187, 332, "Input",ExpressionUUID->"f53b40b1-e5c2-4639-8101-6099eda96720"],
+Cell[21128, 558, 6360, 118, 483, "Output",ExpressionUUID->"09487b76-0c20-48a2-ac0f-f0b55b352e52"]
+}, Open  ]]
+}
+]
+*)
+
