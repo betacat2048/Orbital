@@ -4,23 +4,32 @@
 #include <math.h>
 #include <vector>
 #include <tuple>
+#include <string>
 
 #include <functional>
 #include <random>
 #include <memory>
 
+#include <Eigen/Dense>
+
 #include <boost/math/tools/roots.hpp>
 #include <boost/math/constants/constants.hpp>
-
 #include <boost/math/special_functions/next.hpp> // For float_distance.
-#include <tuple> // for std::tuple and std::make_tuple.
 #include <boost/math/special_functions/cbrt.hpp> // For boost::math::cbrt.
 
-#include <Eigen/Dense>
 
 #include <cspice/SpiceUsr.h>
 
 #include "space.h"
+
+#ifdef _DEBUG
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#endif // _DEBUG
+
 
 using namespace orbital;
 
@@ -120,11 +129,16 @@ using namespace std;
 std::mt19937 gen(std::random_device{}());
 
 int main(void) {
+#ifdef _DEBUG
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif // _DEBUG
+
+
     using namespace boost::math::long_double_constants;
 
-    value_t ct = pi / 10;
+    value_t ct = 25 * pi / 10;
 
-    auto SSB = make_shared<absolute_phase::frame>();
+    auto SSB = make_shared<const absolute_phase::frame>();
 
     auto earthmoon_MeanOrbit = make_shared<absolute_phase::dirct>(
         SSB,
@@ -142,7 +156,7 @@ int main(void) {
         );
 
     auto earthmoon_CenterPoint = make_shared<absolute_phase::point>(
-        SSB,
+        static_cast<std::shared_ptr<const absolute_phase::point>>(SSB),
         absolute_phase::point_diff(
             nullptr,
             relatively_phase::point(
@@ -165,50 +179,74 @@ int main(void) {
         )
         );
 
-    auto earth_FixBody = make_shared<absolute_phase::frame>(
-        absolute_phase::point(
-            earthmoon_CenterPoint,
-            absolute_phase::point_diff(
-                moon_MeanOrbit,
-                relatively_phase::point(
-                    vec3(-0.1 * cos(ct + 12. * (pi / 180.)), -0.1 * sin(ct + 12. * (pi / 180.)), 0.),
-                    vec3(0.1 * sin(ct + 12. * (pi / 180.)), -0.1 * cos(ct + 12. * (pi / 180.)), 0.),
-                    vec3(0.1 * cos(ct + 12. * (pi / 180.)), 0.1 * sin(ct + 12. * (pi / 180.)), 0.))
-            )
-        ),
-        absolute_phase::dirct(
-            earth_MeanEquator,
-            relatively_phase::dirct(
-                make_quaternion((30. * ct + 5. * cos(ct)) * 360. * (pi / 180.), vec3(0, 0, 1)),
-                360. * (pi / 180.) * (30. - 5. * sin(ct)) * vec3(0, 0, 1),
-                -1800. * (pi / 180.) * cos(ct) * vec3(0, 0, 1))
+    auto tmp_point = absolute_phase::point(
+        earthmoon_CenterPoint,
+        absolute_phase::point_diff(
+            moon_MeanOrbit,
+            relatively_phase::point(
+                vec3(-0.1 * cos(ct + 12. * (pi / 180.)), -0.1 * sin(ct + 12. * (pi / 180.)), 0.),
+                vec3(0.1 * sin(ct + 12. * (pi / 180.)), -0.1 * cos(ct + 12. * (pi / 180.)), 0.),
+                vec3(0.1 * cos(ct + 12. * (pi / 180.)), 0.1 * sin(ct + 12. * (pi / 180.)), 0.))
         )
-        );
+    );
+    auto tmp_dirct = absolute_phase::dirct(
+        earth_MeanEquator,
+        relatively_phase::dirct(
+            make_quaternion((30. * ct + 5. * cos(ct)) * 360. * (pi / 180.), vec3(0, 0, 1)),
+            360. * (pi / 180.) * (30. - 5. * sin(ct)) * vec3(0, 0, 1),
+            -1800. * (pi / 180.) * cos(ct) * vec3(0, 0, 1))
+    );
+    
+    std::shared_ptr<const absolute_phase::frame> earth_FixBody(new absolute_phase::frame(std::move(tmp_point), std::move(tmp_dirct)));
 
     double phi = 35 * (pi / 180);
     double lambda = 45 * (pi / 180);
 
-    auto localstation_ENT = make_shared<absolute_phase::frame>(
-        earth_FixBody,
-        relatively_phase::frame(
-            relatively_phase::point(vec3(0.11 * cos(phi) * cos(lambda), 0.11 * cos(phi) * sin(lambda), 0.11 * sin(phi))),
-            relatively_phase::dirct(make_quaternion(lambda, { 0,0,1 }) * make_quaternion(-phi, { 0,1,0 }) * make_quaternion(half_pi, { 0,1,0 }) * make_quaternion(half_pi, { 0,0,1 }))
+    absolute_phase::frame_ptr localstation_ENT(
+        new absolute_phase::frame(
+            earth_FixBody,
+            relatively_phase::frame(
+                relatively_phase::point(vec3(0.11 * cos(phi) * cos(lambda), 0.11 * cos(phi) * sin(lambda), 0.11 * sin(phi))),
+                relatively_phase::dirct(make_quaternion(lambda, { 0,0,1 }) * make_quaternion(-phi, { 0,1,0 }) * make_quaternion(half_pi, { 0,1,0 }) * make_quaternion(half_pi, { 0,0,1 }))
+            )
         )
-        );
+    );
 
     auto ls_p = make_shared<absolute_phase::point>(
         earth_FixBody,
         relatively_phase::point(vec3({ 0,0.11,0 }))
         );
 
+    auto satt = make_shared<const absolute_phase::point>(
+        earthmoon_CenterPoint,
+        absolute_phase::point_diff(
+            SSB,
+            relatively_phase::point(
+                vec3(0.25 * cos(345600. * ct * (pi / 180.)), 0.25 * sin(345600. * ct * (pi / 180.)), 0),
+                vec3(-1507.96 * sin(345600. * ct * (pi / 180.)), 1507.96 * cos(345600. * ct * (pi / 180.)), 0.),
+                vec3(-9.09583e6 * cos(345600. * ct * (pi / 180.)), -9.09583e6 * sin(345600. * ct * (pi / 180.)), 0.)
+            )
+        )
+        );
 
-    cout << earthmoon_CenterPoint->different_from(absolute_phase::frame::root()).posvelacc() << endl;
+    cout << earthmoon_CenterPoint->different_from(absolute_phase::frame::root()).posvelacc().transpose() << endl;
     cout << "\n" << endl;
     
     auto ussb = earth_FixBody->different_from(SSB);
 
-    cout << ussb.posvelacc() << endl;
+    cout << ussb.posvelacc().transpose() << endl;
     cout << ussb.posvelacc_posvelacc() << endl;
+    cout << "\n" << endl;
+
+    cout << localstation_ENT->different_from(SSB).posvelacc().transpose() << endl;
+    cout << "\n" << endl;
+
+    cout << satt->different_from(SSB).posvelacc().transpose() << endl;
+    cout << satt->different_from(localstation_ENT).posvelacc().transpose() << endl;
+    cout << satt->different_from(localstation_ENT).reduce_under(SSB).posvelacc().transpose() << endl;
+    cout << "\n" << endl;
+
+    auto res = satt->different_from(localstation_ENT).posvelacc().transpose();
 
     return 0;
 

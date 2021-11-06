@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 
+#include <iostream>
+
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
@@ -53,6 +55,10 @@ namespace orbital {
 		class point_diff; // class repersent the absolute difference between points
 		class dirct;
 		class frame;
+
+		using point_ptr = std::shared_ptr<const point>;
+		using dirct_ptr = std::shared_ptr<const dirct>;
+		using frame_ptr = std::shared_ptr<const frame>;
 	}
 
 	namespace state {

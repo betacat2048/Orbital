@@ -5,9 +5,9 @@ using namespace std;
 using namespace Eigen;
 using namespace orbital;
 
-absolute_phase::point::point(const std::shared_ptr<const absolute_phase::frame> &f, const relatively_phase::point &rel_pos):point(f, { f, rel_pos }) {}
+absolute_phase::point::point(const absolute_phase::frame_ptr &f, const relatively_phase::point &rel_pos):point(f, { f, rel_pos }) {}
 
-size_t orbital::absolute_phase::point::distanceTo(const std::shared_ptr<const point> &o) const {
+size_t orbital::absolute_phase::point::distanceTo(const point_ptr &o) const {
 	if( o == nullptr ) return depth;
 	size_t dis = 0;
 
@@ -29,7 +29,7 @@ size_t orbital::absolute_phase::point::distanceTo(const std::shared_ptr<const po
 	return size_t();
 }
 
-absolute_phase::point_diff orbital::absolute_phase::point::point_diff_from(const std::shared_ptr<const point> &new_base) const{
+absolute_phase::point_diff orbital::absolute_phase::point::point_diff_from(const point_ptr &new_base) const{
 	auto q = this;
 	auto p = new_base.get();
 
@@ -57,17 +57,22 @@ absolute_phase::point_diff orbital::absolute_phase::point::point_diff_from(const
 		}
 	}
 
+	//std::cout << "P: " << P.reduce_under(absolute_phase::dirct::root()).posvelacc().transpose() << std::endl;
+	//std::cout << "Q: " << Q.reduce_under(absolute_phase::dirct::root()).posvelacc().transpose() << std::endl;
+	//std::cout << "P.inverse(): " << P.inverse().reduce_under(absolute_phase::dirct::root()).posvelacc().transpose() << std::endl;
+	//std::cout << "P.inverse() + Q: " << (P.inverse() + Q).reduce_under(absolute_phase::dirct::root()).posvelacc().transpose() << std::endl;
+
 	return P.inverse() + Q;
 }
 
-absolute_phase::point_diff orbital::absolute_phase::point::different_from(const std::shared_ptr<const absolute_phase::point> &new_base) const {
+absolute_phase::point_diff orbital::absolute_phase::point::different_from(const point_ptr &new_base) const {
 	return point_diff_from(new_base).reduce_under(new_base ? new_base->refer_dirct : dirct::root());
 }
 
-absolute_phase::point_diff orbital::absolute_phase::point::different_from(const std::shared_ptr<const absolute_phase::frame> &new_base) const {
+absolute_phase::point_diff orbital::absolute_phase::point::different_from(const absolute_phase::frame_ptr &new_base) const {
 	return point_diff_from(new_base).reduce_under(new_base);
 }
 
-std::shared_ptr<const absolute_phase::point> orbital::absolute_phase::point::reduce_under(const std::shared_ptr<const absolute_phase::frame> &new_base) {
-	return std::make_shared<const point>(static_cast<std::shared_ptr<const point>>(new_base), different_from(new_base));
+absolute_phase::point_ptr orbital::absolute_phase::point::reduce_under(const absolute_phase::frame_ptr &new_base) {
+	return std::make_shared<const point>(static_cast<absolute_phase::point_ptr>(new_base), different_from(new_base));
 }

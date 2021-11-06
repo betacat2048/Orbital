@@ -4,7 +4,7 @@ using namespace std;
 using namespace Eigen;
 using namespace orbital;
 
-size_t orbital::absolute_phase::dirct::distanceTo(const std::shared_ptr<const dirct> &o) const {
+size_t orbital::absolute_phase::dirct::distanceTo(const dirct_ptr &o) const {
 	if( o == nullptr ) return depth;
 	size_t dis = 0;
 
@@ -26,7 +26,7 @@ size_t orbital::absolute_phase::dirct::distanceTo(const std::shared_ptr<const di
 	return size_t();
 }
 
-relatively_phase::dirct orbital::absolute_phase::dirct::different_from(const std::shared_ptr<const dirct> &new_prev_dirct) const {
+relatively_phase::dirct orbital::absolute_phase::dirct::different_from(const dirct_ptr &new_prev_dirct) const {
 	// creating two pointer on direct_trans_base
 	auto q = this;
 	auto p = new_prev_dirct.get();

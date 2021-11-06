@@ -10,6 +10,8 @@ namespace orbital::relatively_phase {
 
 		point(point &&) = default;
 		point(const point &) = default;
+		//point(point &&o):position(std::move(o.position)), velocity(std::move(o.velocity)), acceleration(std::move(o.acceleration)) { std::cout << "called moving constructor of relatively_phase::point" << std::endl; }
+		//point(const point &o):position(o.position), velocity(o.velocity), acceleration(o.acceleration) { std::cout << "called copying constructor of relatively_phase::point" << std::endl; }
 		point &operator=(point &&) = default;
 		point &operator=(const point &) = default;
 		virtual ~point() = default;
@@ -54,6 +56,7 @@ namespace orbital::relatively_phase {
 			return *this;
 		}
 		// satisfy the commutative law
+		point operator+(point &&other) const { return other += *this; }
 		point operator+(const point &other) const { auto tmp = *this; return tmp += other; }
 		point trans_pos(const point &x) const { return *this + x; }
 

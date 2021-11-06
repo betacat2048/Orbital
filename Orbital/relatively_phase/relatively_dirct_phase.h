@@ -13,6 +13,8 @@ namespace orbital::relatively_phase {
 
 		dirct(dirct &&) = default;
 		dirct(const dirct &) = default;
+		//dirct(dirct &&o):posture(std::move(o.posture)), angular_velocity(std::move(o.angular_velocity)), angular_acceleration(std::move(o.angular_acceleration)) { std::cout << "called moving constructor of relatively_phase::dirct" << std::endl; }
+		//dirct(const dirct &o):posture(o.posture), angular_velocity(o.angular_velocity), angular_acceleration(o.angular_acceleration) { std::cout << "called copying constructor of relatively_phase::dirct" << std::endl; }
 		dirct &operator=(dirct &&) = default;
 		dirct &operator=(const dirct &) = default;
 		virtual ~dirct() = default;
