@@ -1,35 +1,29 @@
 #pragma once
-#include "util.h"
+#include "dirct.h"
 #include "point.h"
-#include "direction.h"
+#include "../state/frame_state.h"
 
-namespace orbital {
+namespace orbital::object {
 
 	// interface for framework
-	class frame {
+	class frame:public object::point, public object::dirct {
 	protected:
-		std::string name;
-		const point &center;
-		const dirct &orient;
+
 	public:
+		frame(frame &&) = default;
+		frame(const frame &) = default;
+		frame(const std::string &name):point(name), dirct(name) {}
 
-		virtual bool inertial() const { return center.inertial() && orient.inertial(); }
-		virtual frame_state operator()(const std::shared_ptr<frame_state> &) const;
+		// bind up point and dirct
+		frame(const point &p, const dirct &d):point(p), dirct(d) {}
+		// bind up point and dirct
+		frame(point &&p, dirct &&d):point(std::move(p)), dirct(std::move(d)) {}
+
+		virtual bool inertial() const { return point::inertial() && dirct::inertial(); }
+
+		virtual state::frame frame_state_at(const timesystem::time_ptr &) const = 0;
+		state::frame operator()(const timesystem::time_ptr &pt) const { return frame_state_at(pt); }
+		virtual state::point point_state_at(const timesystem::time_ptr &pt) const { return frame_state_at(pt); }
+		virtual state::dirct dirct_state_at(const timesystem::time_ptr &pt) const { return frame_state_at(pt); }
 	};
-
-	/*
-	// state of a certain framework at a certain time
-	class frame_state: public state, public point_state, public dirct_state {
-		friend class frame;
-	protected:
-		const frame &parent;
-
-		frame_state(const std::shared_ptr<frame_state> &frame_s, const frame &frame, const point_state &center, const dirct_state &orient):state(frame_s), parent(frame), point_state(center), dirct_state(orient) { }
-	public:
-		frame_state(frame_state &&) = default;
-		frame_state(const frame_state &) = default;
-
-		frame_state under(const std::shared_ptr<frame_state> &frame_s);
-	};
-	*/
 }

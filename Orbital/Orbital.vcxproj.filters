@@ -39,6 +39,9 @@
     <ClCompile Include="absolute_phase\absolute_point_phase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="state\frame_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="space.h">
@@ -83,7 +86,7 @@
     <ClInclude Include="timesystem\timepoint.h">
       <Filter>Header Files\timesystem</Filter>
     </ClInclude>
-    <ClInclude Include="state\drict_state.h">
+    <ClInclude Include="state\dirct_state.h">
       <Filter>Header Files\state</Filter>
     </ClInclude>
     <ClInclude Include="state\frame_state.h">
@@ -95,8 +98,5 @@
     <ClInclude Include="absolute_phase\absolute_point_phase_diff.h">
       <Filter>Header Files\absolute_phase</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

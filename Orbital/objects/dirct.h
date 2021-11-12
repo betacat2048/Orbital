@@ -1,36 +1,26 @@
 #pragma once
-#include "util.h"
-#include "phase.h"
-//#include "state.h"
-#include "timesystem.h"
+#include "../util.h"
+#include "../state/dirct_state.h"
 
-namespace orbital {
+namespace orbital::object {
 
 	// interface for dirct
 	class dirct {
 	protected:
-		std::string name;
+		std::string dirct_name;
+
 	public:
+		dirct(dirct &&) = default;
+		dirct(const dirct &) = default;
+		virtual ~dirct() = default;
 
-		virtual bool inertial() const = 0; // return if this dirction is inertial (which means its angular velocity and the angular acceleration are all ZERO)
-		virtual dirct_state operator()(const std::shared_ptr<frame_state> &) const = 0;
+		dirct(const std::string &name):dirct_name(name) {}
+
+		virtual bool inertial() const = 0;
+		
+		std::string get_dirct_name() const { return dirct_name; }
+
+		virtual state::dirct dirct_state_at(const timesystem::time_ptr &) const = 0;
+		state::dirct operator()(const timesystem::time_ptr &pt) const { return dirct_state_at(pt); }
 	};
-
-
-	/*
-	// state of a certain orientation at a certain time
-	class dirct_state: public state {
-		friend class dirct;
-	protected:
-		const dirct &parent;
-		quaternion rotation;
-		vec3 omega, ang_acc;
-		mat99 trans_mat;
-	public:
-		dirct_state(dirct_state &&) = default;
-		dirct_state(const dirct_state &) = default;
-
-		dirct_state reduce_under(const std::shared_ptr<frame_state> &frame_s);
-	};
-	*/
 }

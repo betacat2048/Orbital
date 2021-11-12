@@ -1,4 +1,5 @@
 #pragma once
+#include <tuple>
 #include <memory>
 
 #include <iostream>
@@ -30,6 +31,7 @@ namespace orbital {
 	using angleaxis = Eigen::AngleAxis<value_t>;
 
 	inline quaternion make_quaternion(const value_t &angle, const vec3 &polar) { return  quaternion(angleaxis(angle, polar.normalized())); }
+	inline quaternion make_quaternion(const std::pair<value_t, vec3> &angle_polar) { return make_quaternion(angle_polar.first, angle_polar.second); }
 	inline quaternion make_quaternion(const value_t &angle, const value_t &x, const value_t &y, const value_t &z) { return make_quaternion(angle, vec3(x, y, z)); }
 	inline mat33 crossMat(const vec3& x){
 		mat33 res{
@@ -40,9 +42,11 @@ namespace orbital {
 		return res;
 	}
 
-	class point;
-	class dirct;
-	class frame;
+	namespace object {
+		class point;
+		class dirct;
+		class frame;
+	}
 
 	namespace relatively_phase {
 		class point;
@@ -68,4 +72,31 @@ namespace orbital {
 		class dirct;
 		class frame;
 	}
+
+	namespace timesystem {
+		class timepoint;
+		using time_ptr = std::shared_ptr<const timepoint>;
+	}
+
+
+	// the helper class for enable_inheritable_shared_from_this<T>, which hold the info of shared_ptr
+	class inheritable_shared_helper_base : public std::enable_shared_from_this<inheritable_shared_helper_base> {
+	public:
+		virtual ~inheritable_shared_helper_base() { } // empty virtual deconstructor
+	};
+
+	template <class T>
+	class enable_inheritable_shared_from_this : virtual public inheritable_shared_helper_base {
+	public:
+		// share from this
+		std::shared_ptr<T> shared_from_this() const {
+			return std::dynamic_pointer_cast<T>( inheritable_shared_helper_base::shared_from_this() );
+		}
+
+		// downcasted helper method when a derived class doesn't inherit directly
+		template <class Down>
+		std::shared_ptr<Down> downcasted_shared_from_this() const {
+			return std::dynamic_pointer_cast<Down>( inheritable_shared_helper_base::shared_from_this() );
+		}
+	};
 }
