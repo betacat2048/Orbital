@@ -14,8 +14,8 @@ namespace orbital::object {
 		point(point &&) = default;
 		point(const point &) = default;
 		virtual ~point() = default;
-		
-		point(const std::string &name):point_name(name) { }
+
+		point(const std::string &name) :point_name(name) { }
 
 		virtual bool inertial() const = 0;
 
@@ -25,25 +25,36 @@ namespace orbital::object {
 		state::point operator()(const timesystem::time_ptr &pt) const { return point_state_at(pt); }
 	};
 
-	class inertial_point: public object::point {
-		absolute_phase::point_diff inital_point;
-		timesystem::time_ptr inital_time;
+
+	class fixed_point : public object::point {
+	protected:
+		vec3 pos;
+	public:
+		fixed_point(fixed_point &&) = default;
+		fixed_point(const fixed_point &) = default;
+		virtual ~fixed_point() = default;
+
+		fixed_point(const std::string &name, const vec3 &pos) :point(name), pos(pos) { }
+
+		bool inertial() const { return true; }
+
+		virtual state::point point_state_at(const timesystem::time_ptr &t) const { return { *this, t, absolute_phase::point::make_node({pos}) }; }
+	};
+
+	class inertial_point : public object::fixed_point {
+		timesystem::time_ptr t0;
+		vec3 vel;
 	public:
 		inertial_point(inertial_point &&) = default;
 		inertial_point(const inertial_point &) = default;
 		virtual ~inertial_point() = default;
 
-		inertial_point(const std::string &name, const timesystem::time_ptr &t, const absolute_phase::point_ptr &p):point(name), inital_time(t) {
-			inital_point = p->different_from(absolute_phase::point::root()); // get the differece from the S.S.B. (this would reduce the dependency and ensure the point is intertial)
-			inital_point.acceleration = vec3::Zero(); //set the acceleration to zero
-		}
+		inertial_point(const std::string &name, const timesystem::time_ptr &t, const vec3 &pos, const vec3 &vel) :fixed_point(name, pos), t0(t), vel(vel) { }
 
 		bool inertial() const { return true; }
 
 		virtual state::point point_state_at(const timesystem::time_ptr &t) const {
-			return state::point(*this, t, absolute_phase::point::make_node(
-				inital_point + relatively_phase::point(vec3(inital_point.velocity * (t->second() - inital_time->second()))) // calculate new position base on velocity
-				));
+			return { *this, t, absolute_phase::point::make_node(relatively_phase::point(pos + ( t->seconds() - t0->seconds() ) * vel, vel)) };
 		}
 	};
 }

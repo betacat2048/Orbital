@@ -6,19 +6,26 @@ namespace orbital::timesystem {
 	//Barycentric Dynamical Time (also konw as TDB)
 	class BarycentricDynamicalTime: public timepoint {
 	protected:
-		const value_t JD2000;
+		const value_t seconds_from_J2000;
 	public:
 		BarycentricDynamicalTime(BarycentricDynamicalTime &&) = default;
 		BarycentricDynamicalTime(const BarycentricDynamicalTime &) = default;
-		BarycentricDynamicalTime(const value_t &days_from_J2000):JD2000(days_from_J2000) {}
+		BarycentricDynamicalTime(const value_t &seconds_from_J2000):seconds_from_J2000(seconds_from_J2000) {}
 
-		value_t days() const { return JD2000; }
+		// overrides
+		value_t seconds() const { return seconds_from_J2000; }
+		virtual BarycentricDynamicalTime toTDB() const { return *this; }
 
-		// date shift
-		BarycentricDynamicalTime operator+(const value_t &o) const { return BarycentricDynamicalTime(JD2000 + o); }
-		BarycentricDynamicalTime operator-(const value_t &o) const { return BarycentricDynamicalTime(JD2000 - o); }
+		// build factor
+		static BarycentricDynamicalTime fromJD(const value_t &Julian_Date) { return BarycentricDynamicalTime(Julian_Date - JD_of_J2000_epoch); }
+		static BarycentricDynamicalTime fromMJD(const value_t &Modified_Julian_Date) { return BarycentricDynamicalTime(Modified_Julian_Date + ( MJD_shift - JD_of_J2000_epoch )); }
 
-		// date different
-		value_t operator-(const BarycentricDynamicalTime &o) const { return JD2000 - o.JD2000; }
+		// shift by seconds
+		BarycentricDynamicalTime operator+(const value_t &o) const { return BarycentricDynamicalTime(seconds_from_J2000 + o); }
+		BarycentricDynamicalTime operator-(const value_t &o) const { return BarycentricDynamicalTime(seconds_from_J2000 - o); }
+
+		// difference in seconds
+		value_t operator-(const BarycentricDynamicalTime &o) const { return seconds_from_J2000 - o.seconds_from_J2000; }
 	};
+	using TDB = BarycentricDynamicalTime;
 }

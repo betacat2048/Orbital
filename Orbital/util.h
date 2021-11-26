@@ -1,5 +1,6 @@
 #pragma once
 #include <tuple>
+#include <limits>
 #include <memory>
 
 #include <iostream>
@@ -27,13 +28,15 @@ namespace orbital {
 	mat_helper(9, 9);
 #undef mat_helper
 
+	const vec3 vec3_NaN = vec3(std::numeric_limits<value_t>::quiet_NaN(), std::numeric_limits<value_t>::quiet_NaN(), std::numeric_limits<value_t>::quiet_NaN());
+
 	using quaternion = Eigen::Quaternion<value_t>;
 	using angleaxis = Eigen::AngleAxis<value_t>;
 
 	inline quaternion make_quaternion(const value_t &angle, const vec3 &polar) { return  quaternion(angleaxis(angle, polar.normalized())); }
 	inline quaternion make_quaternion(const std::pair<value_t, vec3> &angle_polar) { return make_quaternion(angle_polar.first, angle_polar.second); }
 	inline quaternion make_quaternion(const value_t &angle, const value_t &x, const value_t &y, const value_t &z) { return make_quaternion(angle, vec3(x, y, z)); }
-	inline mat33 crossMat(const vec3& x){
+	inline mat33 crossMat(const vec3 &x) {
 		mat33 res{
 			{ 0, -x(2), x(1)},
 			{x(2), 0, -x(0)},
@@ -75,6 +78,7 @@ namespace orbital {
 
 	namespace timesystem {
 		class timepoint;
+		class BarycentricDynamicalTime;
 		using time_ptr = std::shared_ptr<const timepoint>;
 	}
 
@@ -82,7 +86,7 @@ namespace orbital {
 	// the helper class for enable_inheritable_shared_from_this<T>, which hold the info of shared_ptr
 	class inheritable_shared_helper_base : public std::enable_shared_from_this<inheritable_shared_helper_base> {
 	public:
-		virtual ~inheritable_shared_helper_base() { } // empty virtual deconstructor
+		virtual ~inheritable_shared_helper_base() {} // empty virtual deconstructor
 	};
 
 	template <class T>

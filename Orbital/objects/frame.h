@@ -6,18 +6,18 @@
 namespace orbital::object {
 
 	// interface for framework
-	class frame:public object::point, public object::dirct {
+	class frame :public object::point, public object::dirct {
 	protected:
 
 	public:
 		frame(frame &&) = default;
 		frame(const frame &) = default;
-		frame(const std::string &name):point(name), dirct(name) {}
+		frame(const std::string &name) :point(name), dirct(name) { }
 
 		// bind up point and dirct
-		frame(const point &p, const dirct &d):point(p), dirct(d) {}
+		frame(const object::point &p, const object::dirct &d) :object::point(p), object::dirct(d) { }
 		// bind up point and dirct
-		frame(point &&p, dirct &&d):point(std::move(p)), dirct(std::move(d)) {}
+		frame(object::point &&p, object::dirct &&d) :object::point(std::move(p)), object::dirct(std::move(d)) { }
 
 		virtual bool inertial() const { return point::inertial() && dirct::inertial(); }
 

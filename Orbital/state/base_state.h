@@ -19,6 +19,12 @@ namespace orbital::state {
 
 		timesystem::time_ptr get_timeptr() const { return p_time; }
 		operator timesystem::time_ptr() const { return get_timeptr(); }
+
+		bool has_same_time_with(const base_state &o) const {
+			// if the time_ptr is same, then return true
+			// else if both p_time and o.p_time aren't nullptr, return if their time_points are same
+			return p_time == o.p_time || ( ( p_time && o.p_time ) && *p_time == *o.p_time );
+		}
 	};
 
 }

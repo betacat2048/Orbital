@@ -17,10 +17,8 @@
 #include <boost/math/special_functions/next.hpp> // For float_distance.
 #include <boost/math/special_functions/cbrt.hpp> // For boost::math::cbrt.
 
-
-#include <cspice/SpiceUsr.h>
-
 #include "space.h"
+#include "cspice.h"
 
 #ifdef _DEBUG
 
@@ -30,6 +28,10 @@
 
 #endif // _DEBUG
 
+// CSPICE
+#include <cspice/SpiceUsr.h>
+#pragma comment(lib, "cspice.lib")
+#pragma comment(lib, "csupport.lib")
 
 using namespace orbital;
 
@@ -138,7 +140,7 @@ class testclass : std::enable_shared_from_this<testclass> {
 	testclass &operator= (testclass &&) = default;
 	testclass &operator= (const testclass &) = default;
 
-	testclass(const ptr_t &prev, const int &data) :prev(prev), data(data) { }
+	testclass(const ptr_t &prev, const int &data) :prev(prev), data(data) {}
 public:
 
 
@@ -250,18 +252,65 @@ void phase_test(value_t ct) {
 	cout << "\n" << endl;
 }
 
-
 int main(void) {
 #ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // _DEBUG
 
 	using namespace boost::math::long_double_constants;
-	
-	phase_test(55.6 * pi / 10);
 
+	auto earth = object::cspice_point("earth");
+	timesystem::time_ptr now_tpr = make_shared<timesystem::TDB>(timesystem::TAI(chrono::system_clock::now()).toTDB());
+	auto s = earth(now_tpr);
+	cout << fixed << setprecision(32) << now_tpr->JulianDate() << endl;
+	cout << scientific << right << setprecision(15) << setw(25) << s.get_pointptr()->different_from(absolute_phase::frame::root()).posvelacc() << endl;
 	return 0;
 
+	SpiceDouble et;
+	SpiceDouble lt;
+	SpiceDouble posvel[6];
+
+	constexpr size_t max_name_len = 256;
+	SpiceChar name[max_name_len];
+	SpiceBoolean found;
+	SpiceInt code;
+
+	//for ( long i = 0; i < 10000000; ++i ) {
+	//	bodc2n_c(i, max_name_len, name, &found);
+	//	if ( found )
+	//		cout << i << "\t" << name << endl;
+	//}
+	//return 0;
+
+	code = 2000001;
+	bodc2s_c(code, max_name_len, name);
+	cout << "\ncode: " << code << "\tname: " << name << "\n" << endl;
+	et = timesystem::TAI(chrono::system_clock::now()).toTDB().seconds();
+
+	for ( size_t i = 0; i < 10; ++i, et += 3600. ) {
+		spkez_c(code, et, "J2000", "NONE", 0, posvel, &lt);
+		cout << "TDB: " << fixed << setprecision(9) << timesystem::TDB(et).JulianDate() << "\n\t";
+		cout << scientific << right << setprecision(15) << setw(25) << posvel[0] << "\t";
+		cout << scientific << right << setprecision(15) << setw(25) << posvel[1] << "\t";
+		cout << scientific << right << setprecision(15) << setw(25) << posvel[2] << "\n\t";
+		cout << scientific << right << setprecision(15) << setw(25) << posvel[3] << "\t";
+		cout << scientific << right << setprecision(15) << setw(25) << posvel[4] << "\t";
+		cout << scientific << right << setprecision(15) << setw(25) << posvel[5] << "\n";
+		cout << "\n" << endl;
+	}
+
+	//for ( size_t i = 0; i < 10000000; ++i ) {
+	//	code = i;
+	//	bodc2n_c(code, max_name_len, name, &found);
+	//	if ( found )
+	//		cout << code << "\t" << name << endl;
+	//}
+
+	//bods2c_c("IAU_EARTH", &code, &found);
+	//cout << code << endl;
+
+	return 0;
+	/**
 	auto s = std::chrono::high_resolution_clock::now();
 	size_t c = 0;
 	value_t err = 0;
@@ -296,6 +345,7 @@ int main(void) {
 	std::cout << std::endl;
 	std::cout << c << std::endl;
 	std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>( e - s ).count() / c << std::endl;
+	/**/
 }
 
 

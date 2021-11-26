@@ -42,6 +42,9 @@
     <ClCompile Include="state\frame_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cspice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="space.h">
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="absolute_phase\absolute_point_phase_diff.h">
       <Filter>Header Files\absolute_phase</Filter>
+    </ClInclude>
+    <ClInclude Include="cspice.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

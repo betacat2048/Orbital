@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="absolute_phase\absolute_dirct_phase.cpp" />
     <ClCompile Include="absolute_phase\absolute_point_phase.cpp" />
+    <ClCompile Include="cspice.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="state\frame_state.cpp" />
   </ItemGroup>
@@ -149,6 +150,7 @@
     <ClInclude Include="absolute_phase\absolute_frame_phase.h" />
     <ClInclude Include="absolute_phase\absolute_point_phase.h" />
     <ClInclude Include="absolute_phase\absolute_point_phase_diff.h" />
+    <ClInclude Include="cspice.h" />
     <ClInclude Include="objects\dirct.h" />
     <ClInclude Include="objects\frame.h" />
     <ClInclude Include="objects\point.h" />
