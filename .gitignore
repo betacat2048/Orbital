@@ -392,3 +392,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+*.tf
+
+*.tpc
+
+*.bpc

@@ -85,10 +85,11 @@ orbital::object::cspice_point::cspice_point(const SpiceInt &NAIF_ID) :point(""),
 }
 
 state::point orbital::object::cspice_point::point_state_at(const timesystem::time_ptr &pt) const {
-	SpiceDouble lt;
-	SpiceDouble posvel[6];
+	SpiceDouble lt; // unused (light time)
+	SpiceDouble posvel[6]; // output postion
+	SpiceDouble et = pt->toTDB().seconds(); // get epoch time
 
-	spkez_c(NAIF_ID, pt->toTDB().seconds(), "J2000", "NONE", 0, posvel, &lt);
+	spkez_c(NAIF_ID, et, "ECLIPJ2000", "NONE", 0, posvel, &lt);
 
 	return { *this,
 		pt,

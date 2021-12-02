@@ -7,11 +7,43 @@
 
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
+#include <boost/math/constants/constants.hpp>
 
 namespace orbital {
 	using value_t = long double;
+	namespace constants {
+		inline constexpr value_t nan = std::numeric_limits<value_t>::quiet_NaN();
+		inline constexpr value_t inf = std::numeric_limits<value_t>::infinity();
 
+		inline constexpr value_t pi = boost::math::constants::pi<value_t>();
+		inline constexpr value_t two_pi = boost::math::constants::two_pi<value_t>();
+		inline constexpr value_t half_pi = boost::math::constants::half_pi<value_t>();
+
+		inline constexpr value_t third_pi = boost::math::constants::third_pi<value_t>();
+		inline constexpr value_t two_thirds_pi = boost::math::constants::two_thirds_pi<value_t>();
+		inline constexpr value_t four_thirds_pi = boost::math::constants::four_thirds_pi<value_t>();
+
+		inline constexpr value_t quarter_pi = boost::math::constants::quarter_pi<value_t>();
+		inline constexpr value_t three_quarters_pi = boost::math::constants::three_quarters_pi<value_t>();
+
+		inline constexpr value_t sixth_pi = boost::math::constants::sixth_pi<value_t>();
+
+		inline constexpr value_t one_div_two_pi = boost::math::constants::one_div_two_pi<value_t>();
+		inline constexpr value_t one_div_pi = boost::math::constants::one_div_pi<value_t>();
+		inline constexpr value_t two_div_pi = boost::math::constants::two_div_pi<value_t>();
+
+		inline constexpr value_t one_div_root_pi = boost::math::constants::one_div_root_pi<value_t>();
+		inline constexpr value_t two_div_root_pi = boost::math::constants::two_div_root_pi<value_t>();
+		inline constexpr value_t one_div_root_two_pi = boost::math::constants::one_div_root_two_pi<value_t>();
+
+		inline constexpr value_t root_pi = boost::math::constants::root_pi<value_t>();
+		inline constexpr value_t root_half_pi = boost::math::constants::root_half_pi<value_t>();
+		inline constexpr value_t root_two_pi = boost::math::constants::root_two_pi<value_t>();
+
+		inline constexpr value_t root_one_div_pi = boost::math::constants::root_one_div_pi<value_t>();
+	}
 #define vec_helper(n) using vec##n = Eigen::Matrix<value_t, n, 1>
+	vec_helper(2);
 	vec_helper(3);
 	vec_helper(6);
 	vec_helper(9);
@@ -28,7 +60,9 @@ namespace orbital {
 	mat_helper(9, 9);
 #undef mat_helper
 
-	const vec3 vec3_NaN = vec3(std::numeric_limits<value_t>::quiet_NaN(), std::numeric_limits<value_t>::quiet_NaN(), std::numeric_limits<value_t>::quiet_NaN());
+	const vec3 vec3_NaN = vec3(constants::nan, constants::nan, constants::nan);
+	inline vec3 vec2_to_vec3(const vec2 &v) { return vec3(v.x(), v.y(), 0); }
+	inline vec2 vec3_to_vec2(const vec3 &v) { return vec2(v.x(), v.y()); }
 
 	using quaternion = Eigen::Quaternion<value_t>;
 	using angleaxis = Eigen::AngleAxis<value_t>;
@@ -44,6 +78,8 @@ namespace orbital {
 		};
 		return res;
 	}
+	inline constexpr auto square(const value_t &x) { return x * x; }
+	inline constexpr auto cube(const value_t &x) { return x * x * x; }
 
 	namespace object {
 		class point;

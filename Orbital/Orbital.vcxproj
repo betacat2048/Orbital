@@ -142,6 +142,7 @@
     <ClCompile Include="absolute_phase\absolute_dirct_phase.cpp" />
     <ClCompile Include="absolute_phase\absolute_point_phase.cpp" />
     <ClCompile Include="cspice.cpp" />
+    <ClCompile Include="kepler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="state\frame_state.cpp" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <ClInclude Include="objects\dirct.h" />
     <ClInclude Include="objects\frame.h" />
     <ClInclude Include="objects\point.h" />
+    <ClInclude Include="kepler.h" />
     <ClInclude Include="relatively_phase\relatively_dirct_phase.h" />
     <ClInclude Include="relatively_phase\relatively_frame_phase.h" />
     <ClInclude Include="relatively_phase\relatively_point_phase.h" />

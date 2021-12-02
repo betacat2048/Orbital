@@ -25,20 +25,20 @@ namespace orbital::relatively_phase {
 		/// <param name = 'velocity'> a vec3 that repersent the velocity of the point relatively, default is vec3::Zero() </param>
 		/// <param name = 'acceleration'> a vec3 that repersent the acceleration of the point relatively, default is vec3::Zero() </param>
 		point(const vec3 &position = vec3::Zero(), const vec3 &velocity = vec3::Zero(), const vec3 &acceleration = vec3::Zero())
-			:position(position), velocity(velocity), acceleration(acceleration) { }
+			:position(position), velocity(velocity), acceleration(acceleration) {}
 
 		/// <summary> create a relatively point by given <paramref name = "posvel"/></summary>
-		/// <param name = 'posvel'> a vec6 that repersent the position and velocity of the point relatively, the acceleration is vec3::Zero() </param>
-		point(const vec6 &posvel) : point(posvel.segment<3>(0), posvel.segment<3>(3)) { }
+		/// <param name = 'posvel'> a vec6 that repersent the position and velocity of the point relatively, the acceleration is vec3_NaN </param>
+		point(const vec6 &posvel) : point(posvel.segment<3>(0), posvel.segment<3>(3), vec3_NaN) {}
 
 		/// <summary> create a relatively point by given <paramref name = "posvelacc"/></summary>
 		/// <param name = 'posvelacc'> a vec6 that repersent the position, velocity and acceleration of the point relatively</param>
-		point(const vec9 &posvelacc) : point(posvelacc.segment<3>(0), posvelacc.segment<3>(3), posvelacc.segment<3>(6)) { }
+		point(const vec9 &posvelacc) : point(posvelacc.segment<3>(0), posvelacc.segment<3>(3), posvelacc.segment<3>(6)) {}
 
 
 
 		/// <summary> a static method that return a zero relatively point (the identity element under +)</summary>
-		static point zero() { return point(); }
+		static point zero() { return point(vec3::Zero(), vec3::Zero(), vec3::Zero()); }
 
 
 
@@ -46,7 +46,7 @@ namespace orbital::relatively_phase {
 		bool operator==(const point &other) const { return position == other.position && velocity == other.velocity && acceleration == other.acceleration; }
 
 		// check if *this is approximately equal to zero (posvelacc().norm() < prec)
-		bool isApproxZero(const value_t &prec = Eigen::NumTraits<value_t>::dummy_precision()) const { 
+		bool isApproxZero(const value_t &prec = Eigen::NumTraits<value_t>::dummy_precision()) const {
 			return  position.squaredNorm() + velocity.squaredNorm() + acceleration.squaredNorm() < prec * prec;
 		}
 

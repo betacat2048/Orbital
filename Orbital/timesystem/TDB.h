@@ -26,6 +26,10 @@ namespace orbital::timesystem {
 
 		// difference in seconds
 		value_t operator-(const BarycentricDynamicalTime &o) const { return seconds_from_J2000 - o.seconds_from_J2000; }
+
+		static time_ptr make_node(const BarycentricDynamicalTime &o) { return std::make_shared<BarycentricDynamicalTime>(o); }
+		static time_ptr make_node(BarycentricDynamicalTime &&o) { return std::make_shared<BarycentricDynamicalTime>(std::move(o)); }
+		static time_ptr make_node(const value_t &seconds_from_J2000) { return std::make_shared<BarycentricDynamicalTime>(seconds_from_J2000); }
 	};
 	using TDB = BarycentricDynamicalTime;
 }

@@ -45,6 +45,9 @@
     <ClCompile Include="cspice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="kepler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="space.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files\absolute_phase</Filter>
     </ClInclude>
     <ClInclude Include="cspice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kepler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

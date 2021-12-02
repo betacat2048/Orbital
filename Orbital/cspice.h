@@ -53,6 +53,11 @@ namespace orbital {
 			// difference in seconds
 			value_t operator-(const InternationalAtomicTime &o) const { return seconds_from_J2000 - o.seconds_from_J2000; }
 
+			static time_ptr make_node(const InternationalAtomicTime &o) { return std::make_shared<InternationalAtomicTime>(o); }
+			static time_ptr make_node(const BarycentricDynamicalTime &o) { return std::make_shared<InternationalAtomicTime>(o); }
+			static time_ptr make_node(InternationalAtomicTime &&o) { return std::make_shared<InternationalAtomicTime>(std::move(o)); }
+			static time_ptr make_node(const value_t &seconds_from_J2000) { return std::make_shared<InternationalAtomicTime>(seconds_from_J2000); }
+			static time_ptr make_node(const std::chrono::system_clock::time_point &tp) { return std::make_shared<InternationalAtomicTime>(tp); }
 		};
 		using TAI = InternationalAtomicTime;
 
@@ -77,6 +82,10 @@ namespace orbital {
 			// difference in seconds
 			value_t operator-(const TerrestrialDynamicalTime &o) const { return seconds_from_J2000 - o.seconds_from_J2000; }
 
+			static time_ptr make_node(const TerrestrialDynamicalTime &o) { return std::make_shared<TerrestrialDynamicalTime>(o); }
+			static time_ptr make_node(const BarycentricDynamicalTime &o) { return std::make_shared<TerrestrialDynamicalTime>(o); }
+			static time_ptr make_node(TerrestrialDynamicalTime &&o) { return std::make_shared<TerrestrialDynamicalTime>(std::move(o)); }
+			static time_ptr make_node(const value_t &seconds_from_J2000) { return std::make_shared<TerrestrialDynamicalTime>(seconds_from_J2000); }
 		};
 		using TDT = TerrestrialDynamicalTime;
 
@@ -100,6 +109,11 @@ namespace orbital {
 
 			// difference in seconds
 			value_t operator-(const CoordinatedUniversalTime &o) const { return seconds_from_J2000 - o.seconds_from_J2000; }
+
+			static time_ptr make_node(const CoordinatedUniversalTime &o) { return std::make_shared<CoordinatedUniversalTime>(o); }
+			static time_ptr make_node(const BarycentricDynamicalTime &o) { return std::make_shared<CoordinatedUniversalTime>(o); }
+			static time_ptr make_node(CoordinatedUniversalTime &&o) { return std::make_shared<CoordinatedUniversalTime>(std::move(o)); }
+			static time_ptr make_node(const value_t &seconds_from_J2000) { return std::make_shared<CoordinatedUniversalTime>(seconds_from_J2000); }
 		};
 		using UTC = CoordinatedUniversalTime;
 	}
@@ -142,6 +156,30 @@ namespace orbital {
 			virtual state::point point_state_at(const timesystem::time_ptr &) const;
 
 			SpiceInt get_id() const { return NAIF_ID; }
+
+			static cspice_point SUN_barycenter;
+			static cspice_point MERCURY_barycenter;
+			static cspice_point VENUS_barycenter;
+			static cspice_point EARTHMOON_barycenter;
+			static cspice_point MARS_barycenter;
+			static cspice_point JUPITER_barycenter;
+			static cspice_point SATURN_barycenter;
+			static cspice_point URANUS_barycenter;
+			static cspice_point NEPTUNE_barycenter;
+			static cspice_point PLUTO_barycenter;
+
+			static cspice_point SUN_center_of_mass;
+			static cspice_point MERCURY_center_of_mass;
+			static cspice_point VENUS_center_of_mass;
+			static cspice_point EARTH_center_of_mass;
+			static cspice_point MOON_center_of_mass;
+			static cspice_point MARS_center_of_mass;
+			static cspice_point JUPITER_center_of_mass;
+			static cspice_point SATURN_center_of_mass;
+			static cspice_point URANUS_center_of_mass;
+			static cspice_point NEPTUNE_center_of_mass;
+			static cspice_point PLUTO_center_of_mass;
+
 		};
 	}
 }
