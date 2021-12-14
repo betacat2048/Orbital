@@ -3,12 +3,12 @@
 #include <boost/math/tools/roots.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <boost/math/special_functions/next.hpp> // For float_distance.
-#include <boost/math/special_functions/cbrt.hpp> // For boost::math::cbrt.
 
+using namespace std;
 using namespace orbital;
+using namespace boost::math::tools;
 
 value_t M2E_ellipse(value_t M, value_t e) {
-	using namespace boost::math::tools;
 	using namespace boost::math::long_double_constants;
 
 	/**
@@ -93,9 +93,85 @@ value_t M2E_ellipse(value_t M, value_t e) {
 }
 
 value_t M2E_hyperbola(value_t M, value_t e) {
-	return 0;
+	using namespace boost::math::long_double_constants;
+
+	double a = asinh(M / e);
+	double b = a + a / ( e * cosh(a) - 1 );
+
+	if ( a == b ) return a;
+	if ( a > b )std::swap(a, b);
+
+	boost::uintmax_t maxit = 64;
+	auto res = halley_iterate(
+		[&e, &M](const value_t &F) {auto eSinhF = e * sinh(F); return std::make_tuple(eSinhF - F - M, e * cosh(F) - 1, eSinhF); },
+		( a + b ) / 2., a, b, static_cast<int>( std::numeric_limits<value_t>::digits ), maxit);
+
+	return res;
 }
 
 value_t orbital::planeKepler::anomaly_eccentric_by_mean(const value_t &mean_anomaly) const {
-	return value_t(0);
+	if ( is_ellipse() )return M2E_ellipse(mean_anomaly, e());
+	if ( is_hyperbola() )return M2E_hyperbola(mean_anomaly, e());
+	return constants::nan;
 }
+
+value_t orbital::planeKepler::universal_anomaly_by_dt(const value_t &dt) const {
+	const auto sqrt_mu = sqrt(mu());
+	const auto ecc = e();
+	const auto alpha = ( 1 - ecc * ecc ) / p();
+	const auto rp = r_min();
+	const auto mu_dt = sqrt_mu * dt;
+	const auto func = [&](const value_t &chi)->value_t {
+		auto chi2 = chi * chi;
+		auto z = chi2 * alpha;
+		return chi * ( ecc * chi2 * stumpff::S(z) + rp ) - mu_dt;
+	};
+
+	const int digits = std::numeric_limits<value_t>::digits;
+	const value_t eps = ldexp(static_cast<value_t>( 1.0 ), 1 - digits);
+
+	// in case the solution is too small (halley_iterate is controled by result*tol)
+	if ( abs(( 1 + ecc ) / p() * mu_dt) < eps )
+		return ( 1 + ecc ) / p() * mu_dt;
+
+
+	value_t guess = 3 * mu_dt;
+	auto parabola_p = 2 * p() / ( 1 + ecc );
+	guess = cbrt(guess + sqrt(square(guess) + cube(parabola_p)));
+	guess = guess - parabola_p / guess;
+
+	auto exp_err = ( ecc * ( ecc - 1 ) * square(ecc + 1) * square(square(guess)) ) / ( 20 * square(p()) );
+	if ( abs(exp_err) > 10 ) {
+		if ( ecc < 1 ) guess = mu_dt * ( 1 - square(ecc) ) / p();
+		else {
+			auto sqrt_alpha = sqrt(-alpha);
+			guess = asinh(-alpha * sqrt_alpha / ecc * mu_dt) / sqrt_alpha;
+		}
+	}
+
+	value_t r = p() * ecc / sqrt(abs(square(ecc) - 1) + 128);
+	value_t fa = func(guess - r);
+	value_t fb = func(guess + r);
+	while ( ( fa < 0 && fb < 0 ) || ( fa > 0 && fb > 0 ) ) {
+		r *= 2;
+		fa = func(guess - r);
+		fb = func(guess + r);
+	}
+
+	boost::uintmax_t maxit = 32;
+
+	auto res = halley_iterate(
+		[&](const value_t &chi) {
+			auto chi2 = chi * chi;
+			auto z = chi2 * alpha;
+			return std::make_tuple(
+				chi * ( ecc * chi2 * stumpff::S(z) + rp ) - mu_dt,
+				ecc * chi2 * stumpff::C(z) + rp,
+				ecc * chi * ( 1 - z * stumpff::S(z) )
+			);
+		},
+		guess, guess - r, guess + r, digits, maxit);
+
+	return res;
+}
+

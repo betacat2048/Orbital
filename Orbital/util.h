@@ -42,6 +42,10 @@ namespace orbital {
 
 		inline constexpr value_t root_one_div_pi = boost::math::constants::root_one_div_pi<value_t>();
 	}
+
+	constexpr value_t epsilon = Eigen::NumTraits<value_t>::dummy_precision();
+	inline bool isApproxZero(const value_t &v) { return std::abs(v) < epsilon; }
+
 #define vec_helper(n) using vec##n = Eigen::Matrix<value_t, n, 1>
 	vec_helper(2);
 	vec_helper(3);
