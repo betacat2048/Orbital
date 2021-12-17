@@ -108,6 +108,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,6 +137,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -152,6 +154,7 @@
     <ClInclude Include="absolute_phase\absolute_point_phase.h" />
     <ClInclude Include="absolute_phase\absolute_point_phase_diff.h" />
     <ClInclude Include="cspice.h" />
+    <ClInclude Include="math\root.h" />
     <ClInclude Include="objects\dirct.h" />
     <ClInclude Include="objects\frame.h" />
     <ClInclude Include="objects\point.h" />

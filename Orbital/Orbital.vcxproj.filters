@@ -28,6 +28,9 @@
     <Filter Include="Header Files\timesystem">
       <UniqueIdentifier>{214842e0-e95d-4744-ab9d-c020d35e4709}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{aeadf564-c53d-4730-8fb8-e3fcf5203861}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="kepler.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="math\root.h">
+      <Filter>Header Files\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

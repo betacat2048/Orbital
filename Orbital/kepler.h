@@ -181,7 +181,7 @@ namespace orbital {
 		value_t dt_by_universal_anomaly(const value_t &universal_anomaly)const {
 			auto chi2 = square(universal_anomaly);
 			auto z = ( 1 - square(e()) ) * chi2 / p();
-			return universal_anomaly / sqrt(mu()) * ( r_min() + e() * chi2 * stumpff::S(z) );
+			return universal_anomaly * ( r_min() + e() * chi2 * stumpff::S(z) ) / sqrt(mu());
 		}
 
 		value_t true_anomaly_by_dt(const value_t &dt)const {

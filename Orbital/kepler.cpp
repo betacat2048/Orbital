@@ -1,4 +1,5 @@
 #include "kepler.h"
+#include "math/root.h"
 
 #include <boost/math/tools/roots.hpp>
 #include <boost/math/constants/constants.hpp>
@@ -116,32 +117,19 @@ value_t orbital::planeKepler::anomaly_eccentric_by_mean(const value_t &mean_anom
 }
 
 value_t orbital::planeKepler::universal_anomaly_by_dt(const value_t &dt) const {
-	const auto sqrt_mu = sqrt(mu());
 	const auto ecc = e();
-	const auto alpha = ( 1 - ecc * ecc ) / p();
 	const auto rp = r_min();
-	const auto mu_dt = sqrt_mu * dt;
-	const auto func = [&](const value_t &chi)->value_t {
-		auto chi2 = chi * chi;
-		auto z = chi2 * alpha;
-		return chi * ( ecc * chi2 * stumpff::S(z) + rp ) - mu_dt;
-	};
+	const auto mu_dt = sqrt(mu()) * dt;
+	const auto alpha = ( 1 - ecc * ecc ) / p();
+	const auto delta = ecc * ( square(ecc) + 1 ) * ( ecc - 1 ) / ( 120 * square(p()) ) * mu_dt;
 
-	const int digits = std::numeric_limits<value_t>::digits;
-	const value_t eps = ldexp(static_cast<value_t>( 1.0 ), 1 - digits);
-
-	// in case the solution is too small (halley_iterate is controled by result*tol)
-	if ( abs(( 1 + ecc ) / p() * mu_dt) < eps )
-		return ( 1 + ecc ) / p() * mu_dt;
-
-
-	value_t guess = 3 * mu_dt;
-	auto parabola_p = 2 * p() / ( 1 + ecc );
-	guess = cbrt(guess + sqrt(square(guess) + cube(parabola_p)));
-	guess = guess - parabola_p / guess;
-
-	auto exp_err = ( ecc * ( ecc - 1 ) * square(ecc + 1) * square(square(guess)) ) / ( 20 * square(p()) );
-	if ( abs(exp_err) > 10 ) {
+	value_t guess, guess_err = sqrt(p());
+	if ( abs(delta) < 11 * 11 ) {
+		// chi^3 + 6 * p() / ( 1 + ecc ) * chi + (-6 * mu_dt) == 0
+		auto parabola_p = p() / ( 1 + ecc );
+		guess = _cubic_equation_root<value_t>(2 * p() / ( 1 + ecc ), -3 * mu_dt);
+	}
+	else {
 		if ( ecc < 1 ) guess = mu_dt * ( 1 - square(ecc) ) / p();
 		else {
 			auto sqrt_alpha = sqrt(-alpha);
@@ -149,29 +137,41 @@ value_t orbital::planeKepler::universal_anomaly_by_dt(const value_t &dt) const {
 		}
 	}
 
-	value_t r = p() * ecc / sqrt(abs(square(ecc) - 1) + 128);
-	value_t fa = func(guess - r);
-	value_t fb = func(guess + r);
-	while ( ( fa < 0 && fb < 0 ) || ( fa > 0 && fb > 0 ) ) {
-		r *= 2;
-		fa = func(guess - r);
-		fb = func(guess + r);
-	}
+	const auto error_func = [ecc, alpha, rp, mu_dt](const value_t &chi) {
+		const auto chi2 = chi * chi;
+		const auto z = alpha * chi2;
+		return chi * ( ecc * chi2 * stumpff::S(z) + rp ) - mu_dt;
+	};
 
-	boost::uintmax_t maxit = 32;
+	const auto error_fuc1 = [ecc, alpha, rp](const value_t &chi) {
+		const auto chi2 = chi * chi; const auto z = alpha * chi2;
+		return ecc * chi2 * stumpff::C(z) + rp;
+	};
+	const auto error_fuc2 = [ecc, alpha, rp](const value_t &chi) {
+		const auto chi2 = chi * chi; const auto z = alpha * chi2;
+		return ecc * chi * ( 1 - z * stumpff::S(z) );
+	};
 
-	auto res = halley_iterate(
-		[&](const value_t &chi) {
-			auto chi2 = chi * chi;
-			auto z = chi2 * alpha;
-			return std::make_tuple(
-				chi * ( ecc * chi2 * stumpff::S(z) + rp ) - mu_dt,
-				ecc * chi2 * stumpff::C(z) + rp,
-				ecc * chi * ( 1 - z * stumpff::S(z) )
-			);
-		},
-		guess, guess - r, guess + r, digits, maxit);
+	using Comp = float_comp<value_t>;
+	using Controller = bracket_precision_controller < Comp, Comp, Comp, value_t, value_t >;
+	const static Comp cmp{ Comp::endianness };
+	Controller ctrl{ 64,  cmp };
 
-	return res;
+	const bisect_predictor<decltype( error_func ), value_t, value_t>bisect{ error_func };
+	const halley_predictor<decltype( error_func ), decltype( error_fuc1 ), decltype( error_fuc2 ), value_t, value_t> halley{ error_func, error_fuc1, error_fuc2 };
+
+	const mixed_stepper stepper{ bracket_stepper{halley}, bracket_stepper{bisect} };
+
+	bracket_solver<value_t, value_t, decltype( stepper ), decltype( ctrl )> root{
+		stepper,
+		guess,
+		guess_err,
+		guess_err,
+		2.,
+		ctrl,
+		true,true
+	};
+
+	return root.solve().get_result();
 }
 
